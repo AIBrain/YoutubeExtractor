@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
-using YoutubeExtractor;
 
 namespace YoutubeExtractor.Tests
 {
@@ -16,9 +12,9 @@ namespace YoutubeExtractor.Tests
         [Test]
         public void TryNormalizedUrlForStandardYouTubeUrlShouldReturnSame()
         {
-            string url = "http://youtube.com/watch?v=12345";            
+            var url = "http://youtube.com/watch?v=12345";            
             
-            string normalizedUrl = String.Empty;
+            var normalizedUrl = String.Empty;
 
             Assert.IsTrue(DownloadUrlResolver.TryNormalizeYoutubeUrl(url, out normalizedUrl));
             Assert.AreEqual(url, normalizedUrl);
@@ -27,9 +23,9 @@ namespace YoutubeExtractor.Tests
         [Test]
         public void TryNormalizedrlForYouTuDotBeUrlShouldReturnNormalizedUrl()
         {
-            string url = "http://youtu.be/12345";
+            var url = "http://youtu.be/12345";
             
-            string normalizedUrl = String.Empty;
+            var normalizedUrl = String.Empty;
             Assert.IsTrue(DownloadUrlResolver.TryNormalizeYoutubeUrl(url, out normalizedUrl));
             Assert.AreEqual("http://youtube.com/watch?v=12345", normalizedUrl);
         }
@@ -37,9 +33,9 @@ namespace YoutubeExtractor.Tests
         [Test]
         public void TryNormalizedUrlForMobileLinkShouldReturnNormalizedUrl()
         {
-            string url = "http://m.youtube.com/?v=12345";
+            var url = "http://m.youtube.com/?v=12345";
             
-            string normalizedUrl = String.Empty;
+            var normalizedUrl = String.Empty;
             Assert.IsTrue(DownloadUrlResolver.TryNormalizeYoutubeUrl(url, out normalizedUrl));
 
             Assert.AreEqual("http://youtube.com/watch?v=12345", normalizedUrl);
@@ -48,9 +44,9 @@ namespace YoutubeExtractor.Tests
         [Test]
         public void GetNormalizedYouTubeUrlForBadLinkShouldReturnNull()
         {
-            string url = "http://notAYouTubeUrl.com";
+            var url = "http://notAYouTubeUrl.com";
            
-            string normalizedUrl = String.Empty;
+            var normalizedUrl = String.Empty;
             Assert.IsFalse(DownloadUrlResolver.TryNormalizeYoutubeUrl(url, out normalizedUrl));
             Assert.IsNull(normalizedUrl);
         }

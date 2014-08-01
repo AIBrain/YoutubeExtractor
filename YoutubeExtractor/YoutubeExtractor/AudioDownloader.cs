@@ -62,7 +62,7 @@ namespace YoutubeExtractor {
         /// <exception cref="AudioExtractionException">An error occured during audio extraction.</exception>
         /// <exception cref="WebException">An error occured while downloading the video.</exception>
         public override void Execute() {
-            string tempPath = Path.GetTempFileName();
+            var tempPath = Path.GetTempFileName();
 
             this.DownloadVideo( tempPath );
 

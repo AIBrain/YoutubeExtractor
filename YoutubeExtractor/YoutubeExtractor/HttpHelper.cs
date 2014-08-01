@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 namespace YoutubeExtractor {
-
     internal static class HttpHelper {
 
         public static string DownloadString( string url ) {
@@ -14,7 +13,7 @@ namespace YoutubeExtractor {
             var request = WebRequest.Create(url);
             request.Method = "GET";
 
-            System.Threading.Tasks.Task<WebResponse> task = System.Threading.Tasks.Task.Factory.FromAsync(
+            var task = Task.Factory.FromAsync(
                 request.BeginGetResponse,
                 asyncResult => request.EndGetResponse(asyncResult),
                 null);
@@ -22,7 +21,7 @@ namespace YoutubeExtractor {
             return task.ContinueWith(t => ReadStreamFromResponse(t.Result)).Result;
 #else
             using ( var client = new WebClient() ) {
-                client.Encoding = System.Text.Encoding.UTF8;
+                client.Encoding = Encoding.UTF8;
                 return client.DownloadString( url );
             }
 #endif
@@ -30,7 +29,7 @@ namespace YoutubeExtractor {
 
         public static string HtmlDecode( string value ) {
 #if PORTABLE
-            return System.Net.WebUtility.HtmlDecode(value);
+            return WebUtility.HtmlDecode(value);
 #else
             return System.Web.HttpUtility.HtmlDecode( value );
 #endif
@@ -44,8 +43,8 @@ namespace YoutubeExtractor {
 
             var dictionary = new Dictionary<string, string>();
 
-            foreach ( string vp in Regex.Split( s, "&" ) ) {
-                string[] strings = Regex.Split( vp, "=" );
+            foreach ( var vp in Regex.Split( s, "&" ) ) {
+                var strings = Regex.Split( vp, "=" );
                 dictionary.Add( strings[ 0 ], strings.Length == 2 ? UrlDecode( strings[ 1 ] ) : string.Empty );
             }
 
@@ -58,9 +57,9 @@ namespace YoutubeExtractor {
             query[ paramToReplace ] = newValue;
 
             var resultQuery = new StringBuilder();
-            bool isFirst = true;
+            var isFirst = true;
 
-            foreach ( KeyValuePair<string, string> pair in query ) {
+            foreach ( var pair in query ) {
                 if ( !isFirst ) {
                     resultQuery.Append( "&" );
                 }
@@ -81,14 +80,14 @@ namespace YoutubeExtractor {
 
         public static string UrlDecode( string url ) {
 #if PORTABLE
-            return System.Net.WebUtility.UrlDecode(url);
+            return WebUtility.UrlDecode(url);
 #else
             return System.Web.HttpUtility.UrlDecode( url );
 #endif
         }
 
         private static string ReadStreamFromResponse( WebResponse response ) {
-            using ( Stream responseStream = response.GetResponseStream() ) {
+            using ( var responseStream = response.GetResponseStream() ) {
                 using ( var sr = new StreamReader( responseStream ) ) {
                     return sr.ReadToEnd();
                 }

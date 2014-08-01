@@ -4,10 +4,10 @@ namespace YoutubeExtractor {
 
     public class VideoInfo {
 
-        internal static IEnumerable<VideoInfo> Defaults = new List<VideoInfo>
+        internal static readonly IEnumerable<VideoInfo> Defaults = new List<VideoInfo>
         {
             /* Non-adaptive */
-            new VideoInfo(5, VideoType.Flash, 240, false, AudioType.Mp3, 64, AdaptiveType.None),
+            new VideoInfo( formatCode: 5, videoType: VideoType.Flash, resolution: 240, is3D: false, audioType: AudioType.Mp3, audioBitrate: 64, adaptiveType: AdaptiveType.None),
             new VideoInfo(6, VideoType.Flash, 270, false, AudioType.Mp3, 64, AdaptiveType.None),
             new VideoInfo(13, VideoType.Mobile, 0, false, AudioType.Aac, 0, AdaptiveType.None),
             new VideoInfo(17, VideoType.Mobile, 144, false, AudioType.Aac, 24, AdaptiveType.None),
@@ -24,7 +24,7 @@ namespace YoutubeExtractor {
             new VideoInfo(46, VideoType.WebM, 1080, false, AudioType.Vorbis, 192, AdaptiveType.None),
 
             /* 3d */
-            new VideoInfo(82, VideoType.Mp4, 360, true, AudioType.Aac, 96, AdaptiveType.None),
+            new VideoInfo( formatCode: 82, videoType: VideoType.Mp4, resolution: 360, is3D: true, audioType: AudioType.Aac, audioBitrate: 96, adaptiveType: AdaptiveType.None),
             new VideoInfo(83, VideoType.Mp4, 240, true, AudioType.Aac, 96, AdaptiveType.None),
             new VideoInfo(84, VideoType.Mp4, 720, true, AudioType.Aac, 152, AdaptiveType.None),
             new VideoInfo(85, VideoType.Mp4, 520, true, AudioType.Aac, 152, AdaptiveType.None),
@@ -33,7 +33,7 @@ namespace YoutubeExtractor {
             new VideoInfo(102, VideoType.WebM, 720, true, AudioType.Vorbis, 192, AdaptiveType.None),
 
             /* Adaptive (aka DASH) - Video */
-            new VideoInfo(133, VideoType.Mp4, 240, false, AudioType.Unknown, 0, AdaptiveType.Video),
+            new VideoInfo( formatCode: 133, videoType: VideoType.Mp4, resolution: 240, is3D: false, audioType: AudioType.Unknown, audioBitrate: 0, adaptiveType: AdaptiveType.Video),
             new VideoInfo(134, VideoType.Mp4, 360, false, AudioType.Unknown, 0, AdaptiveType.Video),
             new VideoInfo(135, VideoType.Mp4, 480, false, AudioType.Unknown, 0, AdaptiveType.Video),
             new VideoInfo(136, VideoType.Mp4, 720, false, AudioType.Unknown, 0, AdaptiveType.Video),
@@ -48,7 +48,7 @@ namespace YoutubeExtractor {
             new VideoInfo(278, VideoType.WebM, 144, false, AudioType.Unknown, 0, AdaptiveType.Video),
 
             /* Adaptive (aka DASH) - Audio */
-            new VideoInfo(139, VideoType.Mp4, 0, false, AudioType.Aac, 48, AdaptiveType.Audio),
+            new VideoInfo( formatCode: 139, videoType: VideoType.Mp4, resolution: 0, is3D: false, audioType: AudioType.Aac, audioBitrate: 48, adaptiveType: AdaptiveType.Audio),
             new VideoInfo(140, VideoType.Mp4, 0, false, AudioType.Aac, 128, AdaptiveType.Audio),
             new VideoInfo(141, VideoType.Mp4, 0, false, AudioType.Aac, 256, AdaptiveType.Audio),
             new VideoInfo(171, VideoType.WebM, 0, false, AudioType.Vorbis, 128, AdaptiveType.Audio),

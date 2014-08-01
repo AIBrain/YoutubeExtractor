@@ -11,21 +11,21 @@ namespace YoutubeExtractor {
             // NB: We intentionally don't cache the operations as it seems that the same operation
             //     doesn't work if the URL below isn't called
 
-            string jsUrl = string.Format( "http://s.ytimg.com/yts/jsbin/html5player-{0}.js", cipherVersion );
-            string js = HttpHelper.DownloadString( jsUrl );
+            var jsUrl = string.Format( "http://s.ytimg.com/yts/jsbin/html5player-{0}.js", cipherVersion );
+            var js = HttpHelper.DownloadString( jsUrl );
 
             //Find "C" in this: var A = B.sig||C (B.s)
-            string functNamePattern = @"\.sig\s*\|\|(\w+)\(";
+            var functNamePattern = @"\.sig\s*\|\|(\w+)\(";
             var funcName = Regex.Match( js, functNamePattern ).Groups[ 1 ].Value;
 
             //Match nested angle braces
-            string funcBodyPattern = @"(?<brace>{([^{}]| ?(brace))*})";
+            var funcBodyPattern = @"(?<brace>{([^{}]| ?(brace))*})";
             //Match the function function_name (that has one argument)
-            string funcPattern = string.Format( @"{0}\(\w+\){1}", funcName, funcBodyPattern );
+            var funcPattern = string.Format( @"{0}\(\w+\){1}", funcName, funcBodyPattern );
             var funcBody = Regex.Match( js, funcPattern ).Groups[ "brace" ].Value;
 
             var lines = funcBody.Split( ';' );
-            string operations = "";
+            var operations = "";
             foreach ( var line in lines.Skip( 1 ).Take( lines.Length - 2 ) ) {
                 Match m;
                 if ( ( m = Regex.Match( line, @"\(\w+,(?<index>\d+)\)" ) ).Success )
@@ -49,12 +49,12 @@ namespace YoutubeExtractor {
                     return new string( cipher.ToCharArray().Reverse().ToArray() );
 
                 case 'w': {
-                        int index = GetOpIndex( op );
+                        var index = GetOpIndex( op );
                         return SwapFirstChar( cipher, index );
                     }
 
                 case 's': {
-                        int index = GetOpIndex( op );
+                        var index = GetOpIndex( op );
                         return cipher.Substring( index );
                     }
 
@@ -69,8 +69,8 @@ namespace YoutubeExtractor {
         }
 
         private static int GetOpIndex( string op ) {
-            string parsed = new Regex( @".(\d+)" ).Match( op ).Result( "$1" );
-            int index = Int32.Parse( parsed );
+            var parsed = new Regex( @".(\d+)" ).Match( op ).Result( "$1" );
+            var index = Int32.Parse( parsed );
 
             return index;
         }

@@ -13,7 +13,7 @@ namespace ExampleApplication
             /*
              * We want the first extractable video with the highest audio quality.
              */
-            VideoInfo video = videoInfos
+            var video = videoInfos
                 .Where(info => info.CanExtractAudio)
                 .OrderByDescending(info => info.AudioBitrate)
                 .First();
@@ -45,7 +45,7 @@ namespace ExampleApplication
             /*
              * Select the first .mp4 video with 360p resolution
              */
-            VideoInfo video = videoInfos
+            var video = videoInfos
                 .First(info => info.VideoType == VideoType.Mp4 && info.Resolution == 360);
 
             /*
@@ -75,7 +75,7 @@ namespace ExampleApplication
              * Get the available video formats.
              * We'll work with them in the video and audio download examples.
              */
-            IEnumerable<VideoInfo> videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
+            var videoInfos = DownloadUrlResolver.GetDownloadUrls(link);
 
             //DownloadAudio(videoInfos);
             DownloadVideo(videoInfos);

@@ -90,7 +90,7 @@ namespace YoutubeExtractor {
         }
 
         private void Flush() {
-            foreach ( byte[] chunk in chunkBuffer ) {
+            foreach ( var chunk in this.chunkBuffer ) {
                 this.fileStream.Write( chunk, 0, chunk.Length );
             }
 
@@ -104,24 +104,24 @@ namespace YoutubeExtractor {
             var mpeg20SampleRate = new[] { 22050, 24000, 16000, 0 };
             var mpeg25SampleRate = new[] { 11025, 12000, 8000, 0 };
 
-            int offset = 0;
-            int length = buffer.Length;
+            var offset = 0;
+            var length = buffer.Length;
 
             while ( length >= 4 ) {
                 int mpegVersion, sampleRate, channelMode;
 
-                ulong header = ( ulong )BigEndianBitConverter.ToUInt32( buffer, offset ) << 32;
+                var header = ( ulong )BigEndianBitConverter.ToUInt32( buffer, offset ) << 32;
 
                 if ( BitHelper.Read( ref header, 11 ) != 0x7FF ) {
                     break;
                 }
 
                 mpegVersion = BitHelper.Read( ref header, 2 );
-                int layer = BitHelper.Read( ref header, 2 );
+                var layer = BitHelper.Read( ref header, 2 );
                 BitHelper.Read( ref header, 1 );
-                int bitRate = BitHelper.Read( ref header, 4 );
+                var bitRate = BitHelper.Read( ref header, 4 );
                 sampleRate = BitHelper.Read( ref header, 2 );
-                int padding = BitHelper.Read( ref header, 1 );
+                var padding = BitHelper.Read( ref header, 1 );
                 BitHelper.Read( ref header, 1 );
                 channelMode = BitHelper.Read( ref header, 2 );
 
@@ -145,17 +145,17 @@ namespace YoutubeExtractor {
                         break;
                 }
 
-                int frameLenght = GetFrameLength( mpegVersion, bitRate, sampleRate, padding );
+                var frameLenght = GetFrameLength( mpegVersion, bitRate, sampleRate, padding );
 
                 if ( frameLenght > length ) {
                     break;
                 }
 
-                bool isVbrHeaderFrame = false;
+                var isVbrHeaderFrame = false;
 
-                if ( frameOffsets.Count == 0 ) {
+                if ( this.frameOffsets.Count == 0 ) {
                     // Check for an existing VBR header just to be safe (I haven't seen any in FLVs)
-                    int o = offset + GetFrameDataOffset( mpegVersion, channelMode );
+                    var o = offset + GetFrameDataOffset( mpegVersion, channelMode );
 
                     if ( BigEndianBitConverter.ToUInt32( buffer, o ) == 0x58696E67 ) {
                         // "Xing"
@@ -202,18 +202,18 @@ namespace YoutubeExtractor {
             var buffer = new byte[ GetFrameLength( this.mpegVersion, 64000, this.sampleRate, 0 ) ];
 
             if ( !isPlaceholder ) {
-                uint header = this.firstFrameHeader;
-                int dataOffset = GetFrameDataOffset( this.mpegVersion, this.channelMode );
+                var header = this.firstFrameHeader;
+                var dataOffset = GetFrameDataOffset( this.mpegVersion, this.channelMode );
                 header &= 0xFFFE0DFF; // Clear CRC, bitrate, and padding fields
-                header |= ( uint )( mpegVersion == 3 ? 5 : 8 ) << 12; // 64 kbit/sec
+                header |= ( uint )( this.mpegVersion == 3 ? 5 : 8 ) << 12; // 64 kbit/sec
                 BitHelper.CopyBytes( buffer, 0, BigEndianBitConverter.GetBytes( header ) );
                 BitHelper.CopyBytes( buffer, dataOffset, BigEndianBitConverter.GetBytes( 0x58696E67 ) ); // "Xing"
                 BitHelper.CopyBytes( buffer, dataOffset + 4, BigEndianBitConverter.GetBytes( ( uint )0x7 ) ); // Flags
-                BitHelper.CopyBytes( buffer, dataOffset + 8, BigEndianBitConverter.GetBytes( ( uint )frameOffsets.Count ) ); // Frame count
-                BitHelper.CopyBytes( buffer, dataOffset + 12, BigEndianBitConverter.GetBytes( totalFrameLength ) ); // File length
+                BitHelper.CopyBytes( buffer, dataOffset + 8, BigEndianBitConverter.GetBytes( ( uint )this.frameOffsets.Count ) ); // Frame count
+                BitHelper.CopyBytes( buffer, dataOffset + 12, BigEndianBitConverter.GetBytes( this.totalFrameLength ) ); // File length
 
-                for ( int i = 0; i < 100; i++ ) {
-                    int frameIndex = ( int )( ( i / 100.0 ) * this.frameOffsets.Count );
+                for ( var i = 0; i < 100; i++ ) {
+                    var frameIndex = ( int )( ( i / 100.0 ) * this.frameOffsets.Count );
 
                     buffer[ dataOffset + 16 + i ] = ( byte )( this.frameOffsets[ frameIndex ] / ( double )this.totalFrameLength * 256.0 );
                 }

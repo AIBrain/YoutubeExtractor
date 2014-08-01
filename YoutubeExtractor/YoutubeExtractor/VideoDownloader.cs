@@ -39,13 +39,13 @@ namespace YoutubeExtractor {
             }
 
             // the following code is alternative, you may implement the function after your needs
-            using ( WebResponse response = request.GetResponse() ) {
-                using ( Stream source = response.GetResponseStream() ) {
-                    using ( FileStream target = File.Open( this.SavePath, FileMode.Create, FileAccess.Write ) ) {
+            using ( var response = request.GetResponse() ) {
+                using ( var source = response.GetResponseStream() ) {
+                    using ( var target = File.Open( this.SavePath, FileMode.Create, FileAccess.Write ) ) {
                         var buffer = new byte[ 1024 ];
-                        bool cancel = false;
+                        var cancel = false;
                         int bytes;
-                        int copiedBytes = 0;
+                        var copiedBytes = 0;
 
                         while ( !cancel && ( bytes = source.Read( buffer, 0, buffer.Length ) ) > 0 ) {
                             target.Write( buffer, 0, bytes );
