@@ -1,10 +1,10 @@
-﻿namespace YoutubeExtractor
-{
+﻿namespace YoutubeExtractor {
+
     /// <summary>
     /// The video type. Also known as video container.
     /// </summary>
-    public enum VideoType
-    {
+    public enum VideoType {
+
         /// <summary>
         /// Video for mobile devices (3GP).
         /// </summary>

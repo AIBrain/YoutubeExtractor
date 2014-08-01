@@ -1,7 +1,6 @@
-﻿namespace YoutubeExtractor
-{
-    public enum AudioType
-    {
+﻿namespace YoutubeExtractor {
+
+    public enum AudioType {
         Aac,
         Mp3,
         Vorbis,

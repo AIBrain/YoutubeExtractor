@@ -1,7 +1,6 @@
-﻿namespace YoutubeExtractor
-{
-    public enum AdaptiveType
-    {
+﻿namespace YoutubeExtractor {
+
+    public enum AdaptiveType {
         None,
         Audio,
         Video

@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace YoutubeExtractor
-{
-    public class ProgressEventArgs : EventArgs
-    {
-        public ProgressEventArgs(double progressPercentage)
-        {
+namespace YoutubeExtractor {
+
+    public class ProgressEventArgs : EventArgs {
+
+        public ProgressEventArgs( double progressPercentage ) {
             this.ProgressPercentage = progressPercentage;
         }
 

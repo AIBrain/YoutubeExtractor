@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace YoutubeExtractor
-{
-    public class VideoInfo
-    {
+namespace YoutubeExtractor {
+
+    public class VideoInfo {
+
         internal static IEnumerable<VideoInfo> Defaults = new List<VideoInfo>
         {
             /* Non-adaptive */
@@ -55,16 +55,13 @@ namespace YoutubeExtractor
             new VideoInfo(172, VideoType.WebM, 0, false, AudioType.Vorbis, 192, AdaptiveType.Audio)
         };
 
-        internal VideoInfo(int formatCode)
-            : this(formatCode, VideoType.Unknown, 0, false, AudioType.Unknown, 0, AdaptiveType.None)
-        { }
+        internal VideoInfo( int formatCode )
+            : this( formatCode, VideoType.Unknown, 0, false, AudioType.Unknown, 0, AdaptiveType.None ) { }
 
-        internal VideoInfo(VideoInfo info)
-            : this(info.FormatCode, info.VideoType, info.Resolution, info.Is3D, info.AudioType, info.AudioBitrate, info.AdaptiveType)
-        { }
+        internal VideoInfo( VideoInfo info )
+            : this( info.FormatCode, info.VideoType, info.Resolution, info.Is3D, info.AudioType, info.AudioBitrate, info.AdaptiveType ) { }
 
-        private VideoInfo(int formatCode, VideoType videoType, int resolution, bool is3D, AudioType audioType, int audioBitrate, AdaptiveType adaptiveType)
-        {
+        private VideoInfo( int formatCode, VideoType videoType, int resolution, bool is3D, AudioType audioType, int audioBitrate, AdaptiveType adaptiveType ) {
             this.FormatCode = formatCode;
             this.VideoType = videoType;
             this.Resolution = resolution;
@@ -93,12 +90,9 @@ namespace YoutubeExtractor
         /// Gets the audio extension.
         /// </summary>
         /// <value>The audio extension, or <c>null</c> if the audio extension is unknown.</value>
-        public string AudioExtension
-        {
-            get
-            {
-                switch (this.AudioType)
-                {
+        public string AudioExtension {
+            get {
+                switch ( this.AudioType ) {
                     case AudioType.Aac:
                         return ".aac";
 
@@ -124,8 +118,7 @@ namespace YoutubeExtractor
         /// <value>
         /// <c>true</c> if the audio of this video can be extracted by YoutubeExtractor; otherwise, <c>false</c>.
         /// </value>
-        public bool CanExtractAudio
-        {
+        public bool CanExtractAudio {
             get { return this.VideoType == VideoType.Flash; }
         }
 
@@ -165,12 +158,9 @@ namespace YoutubeExtractor
         /// Gets the video extension.
         /// </summary>
         /// <value>The video extension, or <c>null</c> if the video extension is unknown.</value>
-        public string VideoExtension
-        {
-            get
-            {
-                switch (this.VideoType)
-                {
+        public string VideoExtension {
+            get {
+                switch ( this.VideoType ) {
                     case VideoType.Mp4:
                         return ".mp4";
 
@@ -200,9 +190,8 @@ namespace YoutubeExtractor
         /// <returns></returns>
         internal string HtmlPlayerVersion { get; set; }
 
-        public override string ToString()
-        {
-            return string.Format("Full Title: {0}, Type: {1}, Resolution: {2}p", this.Title + this.VideoExtension, this.VideoType, this.Resolution);
+        public override string ToString() {
+            return string.Format( "Full Title: {0}, Type: {1}, Resolution: {2}p", this.Title + this.VideoExtension, this.VideoType, this.Resolution );
         }
     }
 }

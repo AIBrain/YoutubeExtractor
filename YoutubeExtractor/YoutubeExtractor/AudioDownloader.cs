@@ -23,13 +23,12 @@ using System;
 using System.IO;
 using System.Net;
 
-namespace YoutubeExtractor
-{
+namespace YoutubeExtractor {
+
     /// <summary>
     /// Provides a method to download a video and extract its audio track.
     /// </summary>
-    public class AudioDownloader : Downloader
-    {
+    public class AudioDownloader : Downloader {
         private bool isCanceled;
 
         /// <summary>
@@ -39,9 +38,8 @@ namespace YoutubeExtractor
         /// <param name="savePath">The path to save the audio.</param>
         /// /// <param name="bytesToDownload">An optional value to limit the number of bytes to download.</param>
         /// <exception cref="ArgumentNullException"><paramref name="video"/> or <paramref name="savePath"/> is <c>null</c>.</exception>
-        public AudioDownloader(VideoInfo video, string savePath, int? bytesToDownload = null)
-            : base(video, savePath, bytesToDownload)
-        { }
+        public AudioDownloader( VideoInfo video, string savePath, int? bytesToDownload = null )
+            : base( video, savePath, bytesToDownload ) { }
 
         /// <summary>
         /// Occurs when the progress of the audio extraction has changed.
@@ -63,29 +61,24 @@ namespace YoutubeExtractor
         /// </exception>
         /// <exception cref="AudioExtractionException">An error occured during audio extraction.</exception>
         /// <exception cref="WebException">An error occured while downloading the video.</exception>
-        public override void Execute()
-        {
+        public override void Execute() {
             string tempPath = Path.GetTempFileName();
 
-            this.DownloadVideo(tempPath);
+            this.DownloadVideo( tempPath );
 
-            if (!this.isCanceled)
-            {
-                this.ExtractAudio(tempPath);
+            if ( !this.isCanceled ) {
+                this.ExtractAudio( tempPath );
             }
 
-            this.OnDownloadFinished(EventArgs.Empty);
+            this.OnDownloadFinished( EventArgs.Empty );
         }
 
-        private void DownloadVideo(string path)
-        {
-            var videoDownloader = new VideoDownloader(this.Video, path, this.BytesToDownload);
+        private void DownloadVideo( string path ) {
+            var videoDownloader = new VideoDownloader( this.Video, path, this.BytesToDownload );
 
-            videoDownloader.DownloadProgressChanged += (sender, args) =>
-            {
-                if (this.DownloadProgressChanged != null)
-                {
-                    this.DownloadProgressChanged(this, args);
+            videoDownloader.DownloadProgressChanged += ( sender, args ) => {
+                if ( this.DownloadProgressChanged != null ) {
+                    this.DownloadProgressChanged( this, args );
 
                     this.isCanceled = args.Cancel;
                 }
@@ -94,15 +87,11 @@ namespace YoutubeExtractor
             videoDownloader.Execute();
         }
 
-        private void ExtractAudio(string path)
-        {
-            using (var flvFile = new FlvFile(path, this.SavePath))
-            {
-                flvFile.ConversionProgressChanged += (sender, args) =>
-                {
-                    if (this.AudioExtractionProgressChanged != null)
-                    {
-                        this.AudioExtractionProgressChanged(this, new ProgressEventArgs(args.ProgressPercentage));
+        private void ExtractAudio( string path ) {
+            using ( var flvFile = new FlvFile( path, this.SavePath ) ) {
+                flvFile.ConversionProgressChanged += ( sender, args ) => {
+                    if ( this.AudioExtractionProgressChanged != null ) {
+                        this.AudioExtractionProgressChanged( this, new ProgressEventArgs( args.ProgressPercentage ) );
                     }
                 };
 
