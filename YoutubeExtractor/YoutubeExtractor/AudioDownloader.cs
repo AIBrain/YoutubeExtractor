@@ -29,7 +29,7 @@ namespace YoutubeExtractor {
     /// Provides a method to download a video and extract its audio track.
     /// </summary>
     public class AudioDownloader : Downloader {
-        private bool isCanceled;
+        private bool _isCanceled;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AudioDownloader"/> class.
@@ -66,7 +66,7 @@ namespace YoutubeExtractor {
 
             this.DownloadVideo( tempPath );
 
-            if ( !this.isCanceled ) {
+            if ( !this._isCanceled ) {
                 this.ExtractAudio( tempPath );
             }
 
@@ -80,7 +80,7 @@ namespace YoutubeExtractor {
                 if ( this.DownloadProgressChanged != null ) {
                     this.DownloadProgressChanged( this, args );
 
-                    this.isCanceled = args.Cancel;
+                    this._isCanceled = args.Cancel;
                 }
             };
 

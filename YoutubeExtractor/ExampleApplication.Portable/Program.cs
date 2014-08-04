@@ -18,7 +18,7 @@ namespace ExampleApplication.Portable
 
             foreach (var videoInfo in videoInfos)
             {
-                Console.WriteLine(videoInfo.DownloadUrl);
+                Console.WriteLine(videoInfo.DownloadUrl );
                 Console.WriteLine();
             }
         }

@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 
 namespace YoutubeExtractor {
-    using System.Threading.Tasks;
 
     /// <summary>
     /// Provides a method to get the download link of a YouTube video.
